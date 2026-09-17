@@ -1,0 +1,2 @@
+uid,pid,updatedon,createdon,deleted,disabled,starttime,endtime,description,hitcount,redirect_type,createdby,source_host,source_path,force_https,keep_query_parameters,respect_query_parameters,target,target_statuscode,lasthiton,disable_hitcount,is_regexp,protected,creation_type,integrity_status
+1,0,1779371897,1779371897,0,0,0,0,Test sys redirect,0,301,1,www.example.com,/test,/0,0,0,https://www.example.com/test,301,1779371897,0,0,0,0,0

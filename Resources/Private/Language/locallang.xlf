@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="EXT:shorturls/Resources/Private/Language/locallang.xlf" date="2026-05-08T12:22:00Z" product-name="shorturls">
+        <header/>
+        <body>
+            <trans-unit id="site_config.tab" resname="site_config.tab">
+                <source>Short URLs</source>
+            </trans-unit>
+            <trans-unit id="site_config.button_doktypes" resname="site_config.button_doktypes">
+                <source>Page types to show the Short URL button for</source>
+            </trans-unit>
+            <trans-unit id="site_config.button_on_siteroot" resname="site_config.button_on_siteroot">
+                <source>Show the Short URL button on the site root page</source>
+            </trans-unit>
+            <trans-unit id="site_config.auto_generate" resname="site_config.auto_generate">
+                <source>Automatically generate Short URL on page creation</source>
+            </trans-unit>
+            <trans-unit id="site_config.auto_generate_doktypes" resname="site_config.auto_generate_doktypes">
+                <source>Page types to generate Short URLs for</source>
+            </trans-unit>
+            <trans-unit id="button.title" resname="button.title">
+                <source>Short URL: %s</source>
+            </trans-unit>
+            <trans-unit id="button.title_multiple" resname="button.title_multiple">
+                <source>Short URL: %s (+%d)</source>
+            </trans-unit>
+            <trans-unit id="button.create" resname="button.create">
+                <source>Create Short URL</source>
+            </trans-unit>
+            <trans-unit id="confirm.create" resname="confirm.create">
+                <source>Create Short URL for this page?</source>
+            </trans-unit>
+            <trans-unit id="notification.copied.title" resname="notification.copied.title">
+                <source>Copied</source>
+            </trans-unit>
+            <trans-unit id="notification.copied.message" resname="notification.copied.message">
+                <source>Short URL copied to clipboard: %s</source>
+            </trans-unit>
+            <trans-unit id="controller.created" resname="controller.created">
+                <source>Short URL %s has been created.</source>
+            </trans-unit>
+            <trans-unit id="controller.error.generate" resname="controller.error.generate">
+                <source>Short URL could not be generated.</source>
+            </trans-unit>
+            <trans-unit id="controller.error.exists" resname="controller.error.exists">
+                <source>A redirect already exists for this page.</source>
+            </trans-unit>
+            <trans-unit id="redirect_description" resname="redirect_description">
+                <source>Automatically generated Short URL</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

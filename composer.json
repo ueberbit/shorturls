@@ -1,0 +1,56 @@
+{
+    "name": "ueberbit/shorturls",
+    "description": "ShortUrl Button for Page View",
+    "type": "typo3-cms-extension",
+    "license": "GPL-3.0-or-later",
+    "homepage": "https://github.com/ueberbit/shorturls",
+    "authors": [
+        {
+            "name": "Jens Jacobsen"
+        }
+    ],
+    "support": {
+        "source": "https://github.com/ueberbit/shorturls",
+        "issues": "https://github.com/ueberbit/shorturls/issues"
+    },
+    "require": {
+        "php": ">=8.4",
+        "typo3/cms-core": "^14.3",
+        "typo3/cms-redirects": "^14.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0",
+        "typo3/tailor": "^1.7",
+        "typo3/testing-framework": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "UEBERBIT\\Shorturls\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "UEBERBIT\\Shorturls\\Tests\\": "Tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "typo3/class-alias-loader": true,
+            "typo3/cms-composer-installers": true
+        },
+        "bin-dir": ".Build/bin",
+        "sort-packages": true,
+        "vendor-dir": ".Build/vendor"
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "shorturls",
+            "web-dir": ".Build/public"
+        },
+        "typo3/cms-extension": {
+            "importmap": {
+                "@ueberbit/shorturls/": "Resources/Public/JavaScript/"
+            }
+        }
+    }
+}
