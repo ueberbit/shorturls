@@ -1,0 +1,43 @@
+name: tests
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  unit-tests:
+    name: "Unit Tests"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v4
+      - name: "Setup PHP"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: mbstring, intl, json, curl, zip, pdo_sqlite, xml, fileinfo
+          coverage: none
+          tools: composer:v2
+      - name: "Install dependencies"
+        run: composer install --no-progress --no-interaction
+      - name: "Run unit tests"
+        run: .Build/bin/phpunit -c Build/phpunit/UnitTests.xml
+
+  functional-tests:
+    name: "Functional Tests"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v4
+      - name: "Setup PHP"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: mbstring, intl, json, curl, zip, pdo_sqlite, xml, fileinfo
+          coverage: none
+          tools: composer:v2
+      - name: "Install dependencies"
+        run: composer install --no-progress --no-interaction
+      - name: "Run functional tests"
+        run: .Build/bin/phpunit -c Build/phpunit/FunctionalTests.xml
