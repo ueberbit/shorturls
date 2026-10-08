@@ -15,6 +15,15 @@ Short URLs
 :Version:
    |release|
 
+:Repository:
+   `GitHub <https://github.com/ueberbit/shorturls>`__
+
+:Packagist:
+   `ueberbit/shorturls <https://packagist.org/packages/ueberbit/shorturls>`__
+
+:TER:
+   `shorturls <https://extensions.typo3.org/extension/shorturls>`__
+
 :Language:
    en
 

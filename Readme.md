@@ -1,6 +1,9 @@
 # EXT: shorturls
 
 [![TYPO3 compatibility](https://img.shields.io/badge/TYPO3-14-ff8700?maxAge=3600&logo=typo3)](https://get.typo3.org/)
+[![Latest version](https://img.shields.io/packagist/v/ueberbit/shorturls?label=Packagist)](https://packagist.org/packages/ueberbit/shorturls)
+[![TER](https://img.shields.io/badge/TER-shorturls-ff8700?logo=typo3)](https://extensions.typo3.org/extension/shorturls)
+[![Tests](https://github.com/ueberbit/shorturls/actions/workflows/tests.yml/badge.svg)](https://github.com/ueberbit/shorturls/actions/workflows/tests.yml)
 
 shorturls is an extension for TYPO3. It adds a "Short URL" button to the page module toolbar,
 letting editors create and copy a short, redirect-based URL for a page without leaving the backend.
@@ -12,10 +15,16 @@ letting editors create and copy a short, redirect-based URL for a page without l
 * typo3/cms-redirects
 
 ## Installation and Setup
-This extension is developed in-house for this project and is not published on Packagist or the
-TYPO3 Extension Repository (TER). It is wired into the project via a Composer `path` repository
-(see the root `composer.json`) and, since the project runs in Composer mode, is loaded and active
-automatically once required.
+
+Install the extension via Composer:
+
+```bash
+composer require ueberbit/shorturls
+```
+
+In Composer mode, the extension is active right after installation. In classic (non-Composer)
+mode, download it from the [TYPO3 Extension Repository (TER)](https://extensions.typo3.org/extension/shorturls)
+or via the Extension Manager and activate it in `Admin Tools > Extensions`.
 
 No database table is added by the extension itself; it reuses the `sys_redirect` table provided by
 `typo3/cms-redirects`. All behaviour is configured per site on the "Short URLs" tab of the site
@@ -24,8 +33,8 @@ configuration (`Site Management > Sites > [Edit site]`).
 ## What it does
 While viewing a page in the page module, a "Short URL" button is shown in the toolbar for
 configurable page types (by default, Standard pages only). If no short URL exists yet for the
-page, clicking the button creates one; if one already exists, the button shows it and copies it
-to the clipboard instead.
+page, clicking the button creates one; if one already exists, the short URL is shown together
+with a button that copies the full URL to the clipboard.
 
 Short URLs can also be generated automatically whenever a new page is created, again restricted
 to configurable page types. By default, neither the button nor automatic generation are available
@@ -39,5 +48,17 @@ is added via a PSR-14 listener on the page module's button bar event; automatic 
 through a DataHandler hook that fires after a new page has been saved.
 
 For more details, see the full extension documentation under `Documentation/`.
+
+## Links
+
+* Source code & issues: https://github.com/ueberbit/shorturls
+* Packagist: https://packagist.org/packages/ueberbit/shorturls
+* TER: https://extensions.typo3.org/extension/shorturls
+
+## Releases
+
+Releases are published automatically: pushing a version tag (`x.y.z`) runs the `publish`
+GitHub Actions workflow, which uploads the version to the TER and creates a GitHub release. The
+tag message is used as release notes. Packagist picks up new tags automatically.
 
 ---
