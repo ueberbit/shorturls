@@ -11,7 +11,7 @@ letting editors create and copy a short, redirect-based URL for a page without l
 ## Requirements
 
 * TYPO3 14.3
-* PHP 8.4
+* PHP 8.3 or higher
 * typo3/cms-redirects
 
 ## Installation and Setup

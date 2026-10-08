@@ -45,5 +45,5 @@ Requirements
 ============
 
 *  TYPO3 v14.3 or higher
-*  PHP 8.4 or higher
+*  PHP 8.3 or higher
 *  :composer:`typo3/cms-redirects`

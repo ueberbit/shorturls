@@ -21,7 +21,7 @@ $rootPath = dirname(__DIR__, 2);
 $composer = json_decode((string)file_get_contents($rootPath . '/composer.json'), true, 512, JSON_THROW_ON_ERROR);
 
 /**
- * Converts a composer constraint like "^14.3" or ">=8.4" into a TER range like "14.3.0-14.99.99".
+ * Converts a composer constraint like "^14.3" or ">=8.3" into a TER range like "14.3.0-14.99.99".
  */
 $toTerRange = static function (string $constraint): string {
     if (!preg_match('/(\d+)(?:\.(\d+))?(?:\.(\d+))?/', $constraint, $matches)) {
