@@ -1,0 +1,30 @@
+name: code-quality
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  code-quality:
+    name: "Code Quality (${{ matrix.check }})"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        check: ["cgl", "rector", "phpstan"]
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v5
+      - name: "Setup PHP"
+        uses: shivammathur/setup-php@v2
+        with:
+          # The tools under Build/ require PHP 8.4
+          php-version: "8.4"
+          extensions: mbstring, intl, json, curl, zip, xml, fileinfo
+          coverage: none
+          tools: composer:v2
+      - name: "Install dependencies"
+        run: composer install --no-progress --no-interaction
+      - name: "Run ${{ matrix.check }}"
+        run: composer ${{ matrix.check }}

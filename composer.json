@@ -33,6 +33,41 @@
             "UEBERBIT\\Shorturls\\Tests\\": "Tests/"
         }
     },
+    "scripts": {
+        "tools:install": [
+            "@composer install --working-dir=Build/rector --no-progress --quiet",
+            "@composer install --working-dir=Build/php-cs-fixer --no-progress --quiet",
+            "@composer install --working-dir=Build/phpstan --no-progress --quiet"
+        ],
+        "rector": [
+            "@tools:install",
+            "Build/rector/vendor/bin/rector --dry-run --config Build/rector/rector.php"
+        ],
+        "rector:fix": [
+            "@tools:install",
+            "Build/rector/vendor/bin/rector --config Build/rector/rector.php"
+        ],
+        "cgl": [
+            "@tools:install",
+            "Build/php-cs-fixer/vendor/bin/php-cs-fixer fix --dry-run --diff --config Build/php-cs-fixer/php-cs-fixer.php"
+        ],
+        "cgl:fix": [
+            "@tools:install",
+            "Build/php-cs-fixer/vendor/bin/php-cs-fixer fix --config Build/php-cs-fixer/php-cs-fixer.php"
+        ],
+        "phpstan": [
+            "@tools:install",
+            "Build/phpstan/vendor/bin/phpstan analyse -c Build/phpstan/phpstan.neon"
+        ]
+    },
+    "scripts-descriptions": {
+        "tools:install": "Install the dev tools in Build/rector, Build/php-cs-fixer and Build/phpstan",
+        "rector": "Check code with Rector (dry-run)",
+        "rector:fix": "Apply Rector changes",
+        "cgl": "Check coding guidelines with php-cs-fixer (dry-run)",
+        "cgl:fix": "Fix coding guidelines with php-cs-fixer",
+        "phpstan": "Run static code analysis with PHPStan"
+    },
     "config": {
         "allow-plugins": {
             "typo3/class-alias-loader": true,

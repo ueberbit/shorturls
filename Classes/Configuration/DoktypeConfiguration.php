@@ -21,7 +21,7 @@ final class DoktypeConfiguration
         $value = $siteConfiguration[$key] ?? (string)PageRepository::DOKTYPE_DEFAULT;
 
         if (is_array($value)) {
-            return array_map('intval', $value);
+            return array_map(intval(...), $value);
         }
 
         return GeneralUtility::intExplode(',', (string)$value, true);

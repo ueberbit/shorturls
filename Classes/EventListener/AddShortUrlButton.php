@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace UEBERBIT\Shorturls\EventListener;
 
-use UEBERBIT\Shorturls\Backend\ShortUrlCopyButton;
-use UEBERBIT\Shorturls\Configuration\DoktypeConfiguration;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ModifyButtonBarEvent;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
@@ -14,10 +12,11 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Site\Entity\Site;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use UEBERBIT\Shorturls\Backend\ShortUrlCopyButton;
+use UEBERBIT\Shorturls\Configuration\DoktypeConfiguration;
 
 #[AsEventListener(
     identifier: 'shorturls/add-button'
@@ -25,9 +24,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 final readonly class AddShortUrlButton
 {
     public function __construct(
-        private IconFactory    $iconFactory,
+        private IconFactory $iconFactory,
         private ConnectionPool $connectionPool,
-        private UriBuilder     $uriBuilder
+        private UriBuilder $uriBuilder,
+        private PageRenderer $pageRenderer
     ) {}
 
     public function __invoke(ModifyButtonBarEvent $event): void
@@ -37,7 +37,7 @@ final readonly class AddShortUrlButton
             return;
         }
 
-        $pageRenderer = $request->getAttribute('normalizedParams') ? GeneralUtility::makeInstance(PageRenderer::class) : null;
+        $pageRenderer = $request->getAttribute('normalizedParams') ? $this->pageRenderer : null;
         if ($pageRenderer instanceof PageRenderer) {
             $pageRenderer->getJavaScriptRenderer()->addJavaScriptModuleInstruction(
                 JavaScriptModuleInstruction::create('@ueberbit/shorturls/short-url-actions')
@@ -104,7 +104,7 @@ final readonly class AddShortUrlButton
             $shortUrlButton
                 ->setUrl($fullUrl)
                 ->setLabel('/' . ltrim($shortUrl, '/'))
-                ->setTitle($languageService->sL('LLL:EXT:shorturls/Resources/Private/Language/locallang.xlf:button.copy'))
+                ->setTitle($languageService->sL('shorturls.messages:button.copy'))
                 ->setCopyIcon($this->iconFactory->getIcon('actions-clipboard', IconSize::SMALL));
 
             // Own group, so it is not merged into a btn-group with the core buttons
@@ -112,10 +112,10 @@ final readonly class AddShortUrlButton
         } else {
             $shortUrlButton = $buttonBar->makeLinkButton()
                 ->setHref((string)$this->uriBuilder->buildUriFromRoute('shorturls_create', ['pageId' => $pageId, 'sourceHost' => $sourceHost]))
-                ->setTitle($languageService->sL('LLL:EXT:shorturls/Resources/Private/Language/locallang.xlf:button.create'))
+                ->setTitle($languageService->sL('shorturls.messages:button.create'))
                 ->setShowLabelText(true)
                 ->setAttributes([
-                    'data-shorturl-confirm' => $languageService->sL('LLL:EXT:shorturls/Resources/Private/Language/locallang.xlf:confirm.create'),
+                    'data-shorturl-confirm' => $languageService->sL('shorturls.messages:confirm.create'),
                 ])
                 ->setIcon($this->iconFactory->getIcon('module-urls', IconSize::SMALL));
 

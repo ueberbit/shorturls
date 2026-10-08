@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace UEBERBIT\Shorturls\Tests\Functional\Hooks;
 
-use TYPO3\CMS\Core\Site\SiteFinder;
-use UEBERBIT\Shorturls\Hooks\AutoGenerateShortUrlHook;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace UEBERBIT\Shorturls\Tests\Unit\Configuration;
 
-use UEBERBIT\Shorturls\Configuration\DoktypeConfiguration;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use UEBERBIT\Shorturls\Configuration\DoktypeConfiguration;
 
 final class DoktypeConfigurationTest extends TestCase
 {

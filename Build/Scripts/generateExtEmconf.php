@@ -10,7 +10,6 @@ declare(strict_types=1);
  *
  * Usage: php Build/Scripts/generateExtEmconf.php <version>
  */
-
 $version = $argv[1] ?? '';
 if (!preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}$/', $version)) {
     fwrite(STDERR, 'Usage: php Build/Scripts/generateExtEmconf.php <x.y.z>' . PHP_EOL);

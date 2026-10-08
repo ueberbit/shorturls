@@ -1,0 +1,27 @@
+# Paths are relative to this file
+includes:
+		- vendor/bnf/phpstan-psr-container/extension.neon
+		- vendor/jangregor/phpstan-prophecy/extension.neon
+		- vendor/phpstan/phpstan-phpunit/extension.neon
+parameters:
+		level: 6
+		parallel:
+				jobSize: 25
+				maximumNumberOfProcesses: 50
+				minimumNumberOfJobsPerProcess: 2
+				processTimeout: 120.0
+		bootstrapFiles:
+				- ../../.Build/vendor/autoload.php
+		paths:
+				- ../../
+		excludePaths:
+				- ../../.Build
+				- ../../Build
+				- ../../Tests
+				- ../../var
+		ignoreErrors:
+			-
+				identifier: missingType.iterableValue
+		treatPhpDocTypesAsCertain: false
+		featureToggles:
+			rawMessageInBaseline: true

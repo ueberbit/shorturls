@@ -9,7 +9,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
@@ -24,15 +26,14 @@ use TYPO3\CMS\Redirects\Service\ShortUrlService;
 final readonly class ShortUrlController
 {
     public function __construct(
-        private ConnectionPool       $connectionPool,
-        private UriBuilder           $uriBuilder,
-        private ShortUrlService      $shortUrlService,
-        private CacheManager         $cacheManager,
-        private SiteFinder           $siteFinder,
+        private ConnectionPool $connectionPool,
+        private UriBuilder $uriBuilder,
+        private ShortUrlService $shortUrlService,
+        private CacheManager $cacheManager,
+        private SiteFinder $siteFinder,
         private RedirectCacheService $redirectCacheService,
-    )
-    {
-    }
+        private FlashMessageService $flashMessageService,
+    ) {}
 
     public function createAction(ServerRequestInterface $request): ResponseInterface
     {
@@ -40,8 +41,11 @@ final readonly class ShortUrlController
 
         if ($pageId > 0) {
 
-            $site = $this->siteFinder->getSiteByPageId($pageId);
-            $sourceHost = $site?->getBase()->getHost() ?? '*';
+            try {
+                $sourceHost = $this->siteFinder->getSiteByPageId($pageId)->getBase()->getHost() ?: '*';
+            } catch (SiteNotFoundException) {
+                $sourceHost = '*';
+            }
 
             $queryBuilder = $this->connectionPool->getQueryBuilderForTable('sys_redirect');
 
@@ -52,7 +56,7 @@ final readonly class ShortUrlController
                 ->where(
                     $queryBuilder->expr()->eq('source_host', $queryBuilder->createNamedParameter($sourceHost)),
                     $queryBuilder->expr()->eq('target', $queryBuilder->createNamedParameter('t3://page?uid=' . $pageId)),
-                    $queryBuilder->expr()->eq('creation_type', $queryBuilder->createNamedParameter(1, \TYPO3\CMS\Core\Database\Connection::PARAM_INT))
+                    $queryBuilder->expr()->eq('creation_type', $queryBuilder->createNamedParameter(1, Connection::PARAM_INT))
                 )
                 ->executeQuery()
                 ->fetchOne();
@@ -77,14 +81,14 @@ final readonly class ShortUrlController
                         ])
                         ->executeStatement();
 
-                    $this->addFlashMessage(sprintf($this->getLanguageService()->sL('LLL:EXT:shorturls/Resources/Private/Language/locallang.xlf:controller.created'), $sourcePath));
+                    $this->addFlashMessage(sprintf($this->getLanguageService()->sL('shorturls.messages:controller.created'), $sourcePath));
                     $this->cacheManager->flushCachesByTag('pageId_' . $pageId);
                     $this->redirectCacheService->rebuildForHost($sourceHost);
                 } else {
-                    $this->addFlashMessage($this->getLanguageService()->sL('LLL:EXT:shorturls/Resources/Private/Language/locallang.xlf:controller.error.generate'), ContextualFeedbackSeverity::ERROR);
+                    $this->addFlashMessage($this->getLanguageService()->sL('shorturls.messages:controller.error.generate'), ContextualFeedbackSeverity::ERROR);
                 }
             } else {
-                $this->addFlashMessage($this->getLanguageService()->sL('LLL:EXT:shorturls/Resources/Private/Language/locallang.xlf:controller.error.exists'), ContextualFeedbackSeverity::WARNING);
+                $this->addFlashMessage($this->getLanguageService()->sL('shorturls.messages:controller.error.exists'), ContextualFeedbackSeverity::WARNING);
             }
         }
 
@@ -95,9 +99,7 @@ final readonly class ShortUrlController
     private function addFlashMessage(string $message, ContextualFeedbackSeverity $severity = ContextualFeedbackSeverity::OK): void
     {
         $flashMessage = GeneralUtility::makeInstance(FlashMessage::class, $message, '', $severity, true);
-        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-        $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
-        $messageQueue->addMessage($flashMessage);
+        $this->flashMessageService->getMessageQueueByIdentifier()->addMessage($flashMessage);
     }
 
     private function getLanguageService(): LanguageService

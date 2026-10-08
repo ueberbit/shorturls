@@ -4,6 +4,7 @@
 [![Latest version](https://img.shields.io/packagist/v/ueberbit/shorturls?label=Packagist)](https://packagist.org/packages/ueberbit/shorturls)
 [![TER](https://img.shields.io/badge/TER-shorturls-ff8700?logo=typo3)](https://extensions.typo3.org/extension/shorturls)
 [![Tests](https://github.com/ueberbit/shorturls/actions/workflows/tests.yml/badge.svg)](https://github.com/ueberbit/shorturls/actions/workflows/tests.yml)
+[![Code Quality](https://github.com/ueberbit/shorturls/actions/workflows/code-quality.yml/badge.svg)](https://github.com/ueberbit/shorturls/actions/workflows/code-quality.yml)
 
 shorturls is an extension for TYPO3. It adds a "Short URL" button to the page module toolbar,
 letting editors create and copy a short, redirect-based URL for a page without leaving the backend.

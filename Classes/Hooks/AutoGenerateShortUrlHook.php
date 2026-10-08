@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace UEBERBIT\Shorturls\Hooks;
 
-use UEBERBIT\Shorturls\Configuration\DoktypeConfiguration;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
@@ -14,17 +14,18 @@ use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Redirects\Service\RedirectCacheService;
 use TYPO3\CMS\Redirects\Service\ShortUrlService;
+use UEBERBIT\Shorturls\Configuration\DoktypeConfiguration;
 
 #[Autoconfigure(public: true)]
 final readonly class AutoGenerateShortUrlHook
 {
     public function __construct(
-        private ConnectionPool         $connectionPool,
-        private ShortUrlService        $shortUrlService,
-        private SiteFinder             $siteFinder,
-        private CacheManager           $cacheManager,
+        private ConnectionPool $connectionPool,
+        private ShortUrlService $shortUrlService,
+        private SiteFinder $siteFinder,
+        private CacheManager $cacheManager,
         private LanguageServiceFactory $languageServiceFactory,
-        private RedirectCacheService   $redirectCacheService
+        private RedirectCacheService $redirectCacheService
     ) {}
 
     /**
@@ -78,7 +79,7 @@ final readonly class AutoGenerateShortUrlHook
             ->where(
                 $queryBuilder->expr()->eq('source_host', $queryBuilder->createNamedParameter($sourceHost)),
                 $queryBuilder->expr()->eq('target', $queryBuilder->createNamedParameter('t3://page?uid=' . $pageId)),
-                $queryBuilder->expr()->eq('creation_type', $queryBuilder->createNamedParameter(1, \TYPO3\CMS\Core\Database\Connection::PARAM_INT))
+                $queryBuilder->expr()->eq('creation_type', $queryBuilder->createNamedParameter(1, Connection::PARAM_INT))
             )
             ->executeQuery()
             ->fetchOne();
@@ -88,7 +89,7 @@ final readonly class AutoGenerateShortUrlHook
 
             if ($sourcePath !== null) {
                 $languageService = $this->languageServiceFactory->createFromUserPreferences($GLOBALS['BE_USER']);
-                $description = $languageService->sL('LLL:EXT:shorturls/Resources/Private/Language/locallang.xlf:redirect_description');
+                $description = $languageService->sL('shorturls.messages:redirect_description');
 
                 $queryBuilder = $this->connectionPool->getQueryBuilderForTable('sys_redirect');
                 $queryBuilder

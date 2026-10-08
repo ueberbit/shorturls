@@ -141,3 +141,21 @@ backend page module request via
 elements carrying ``data-shorturl-confirm`` (shows a confirmation dialog
 before following the link). Copying is handled by the core
 ``@typo3/backend/copy-to-clipboard.js`` module.
+
+.. _developer-code-quality:
+
+Code quality
+============
+
+Rector, php-cs-fixer and PHPStan live in their own Composer setups under
+:file:`Build/rector`, :file:`Build/php-cs-fixer` and :file:`Build/phpstan`.
+The following Composer scripts install them on first use and run them
+against the extension:
+
+..  code-block:: bash
+
+    composer rector       # Rector dry-run
+    composer rector:fix   # apply Rector changes
+    composer cgl          # php-cs-fixer dry-run (with diff)
+    composer cgl:fix      # apply php-cs-fixer changes
+    composer phpstan      # static code analysis (level 6)
