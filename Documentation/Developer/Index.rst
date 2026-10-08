@@ -43,9 +43,12 @@ currently opened in the page module it:
     :confval:`shorturls_button_on_siteroot` is disabled.
 #.  Looks up an existing short URL redirect for the page.
 #.  Renders either a "create" link (pointing at the ``shorturls_create``
-    backend route) or a "copy to clipboard" link, using
-    ``data-shorturl-*`` attributes that are picked up by the frontend module
-    described below.
+    backend route, confirmed via the frontend module described below) or,
+    if a short URL exists, a :php:`UEBERBIT\Shorturls\Backend\ShortUrlCopyButton`.
+    That button mirrors the read-only ``short_url`` field of EXT:redirects:
+    the short URL path in an input group plus TYPO3's
+    ``<typo3-copy-to-clipboard>`` element, which copies the full URL
+    (including the site's base URL).
 
 .. _developer-doktype-configuration:
 
@@ -135,6 +138,6 @@ Frontend module
 :file:`Resources/Public/JavaScript/ShortUrlActions.js` is loaded on every
 backend page module request via
 :file:`Configuration/JavaScriptModules.php`. It listens for clicks on
-elements carrying ``data-shorturl-copy`` (copies the value to the clipboard
-and shows a notification) or ``data-shorturl-confirm`` (shows a
-confirmation dialog before following the link).
+elements carrying ``data-shorturl-confirm`` (shows a confirmation dialog
+before following the link). Copying is handled by the core
+``@typo3/backend/copy-to-clipboard.js`` module.

@@ -23,13 +23,9 @@
                 <source>Page types to generate Short URLs for</source>
                 <target>Seitentypen, für die Kurz-URLs generiert werden</target>
             </trans-unit>
-            <trans-unit id="button.title" resname="button.title">
-                <source>Short URL: %s</source>
-                <target>Kurz-URL: %s</target>
-            </trans-unit>
-            <trans-unit id="button.title_multiple" resname="button.title_multiple">
-                <source>Short URL: %s (+%d)</source>
-                <target>Kurz-URL: %s (+%d)</target>
+            <trans-unit id="button.copy" resname="button.copy">
+                <source>Copy Short URL</source>
+                <target>Kurz-URL kopieren</target>
             </trans-unit>
             <trans-unit id="button.create" resname="button.create">
                 <source>Create Short URL</source>
@@ -38,14 +34,6 @@
             <trans-unit id="confirm.create" resname="confirm.create">
                 <source>Create Short URL for this page?</source>
                 <target>Kurz-URL für diese Seite erstellen?</target>
-            </trans-unit>
-            <trans-unit id="notification.copied.title" resname="notification.copied.title">
-                <source>Copied</source>
-                <target>Kopiert</target>
-            </trans-unit>
-            <trans-unit id="notification.copied.message" resname="notification.copied.message">
-                <source>Short URL copied to clipboard: %s</source>
-                <target>Kurz-URL in die Zwischenablage kopiert: %s</target>
             </trans-unit>
             <trans-unit id="controller.created" resname="controller.created">
                 <source>Short URL %s has been created.</source>

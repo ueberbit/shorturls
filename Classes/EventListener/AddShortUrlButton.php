@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace UEBERBIT\Shorturls\EventListener;
 
+use UEBERBIT\Shorturls\Backend\ShortUrlCopyButton;
 use UEBERBIT\Shorturls\Configuration\DoktypeConfiguration;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
-use TYPO3\CMS\Backend\Template\Components\Buttons\LinkButton;
 use TYPO3\CMS\Backend\Template\Components\ModifyButtonBarEvent;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Database\Connection;
@@ -90,37 +90,38 @@ final readonly class AddShortUrlButton
             ->fetchAssociative();
 
         $languageService = $this->getLanguageService();
+        $buttonBar = $event->getButtonBar();
+        $buttons = $event->getButtons();
 
         if (!empty($redirect)) {
             $shortUrl = $redirect['source_path'] ?? '';
             $fullUrl = rtrim($baseUrl, '/') . '/' . ltrim($shortUrl, '/');
-            $title = sprintf($languageService->sL('LLL:EXT:shorturls/Resources/Private/Language/locallang.xlf:button.title'), $shortUrl);
 
-            $href = '#';
-            $attributes = [
-                'data-shorturl-copy' => $fullUrl,
-                'data-shorturl-display' => $shortUrl,
-                'data-shorturl-notification-title' => $languageService->sL('LLL:EXT:shorturls/Resources/Private/Language/locallang.xlf:notification.copied.title'),
-                'data-shorturl-notification-message' => $languageService->sL('LLL:EXT:shorturls/Resources/Private/Language/locallang.xlf:notification.copied.message'),
-            ];
+            $pageRenderer?->loadJavaScriptModule('@typo3/backend/copy-to-clipboard.js');
+
+            /** @var ShortUrlCopyButton $shortUrlButton */
+            $shortUrlButton = $buttonBar->makeButton(ShortUrlCopyButton::class);
+            $shortUrlButton
+                ->setUrl($fullUrl)
+                ->setLabel('/' . ltrim($shortUrl, '/'))
+                ->setTitle($languageService->sL('LLL:EXT:shorturls/Resources/Private/Language/locallang.xlf:button.copy'))
+                ->setCopyIcon($this->iconFactory->getIcon('actions-clipboard', IconSize::SMALL));
+
+            // Own group, so it is not merged into a btn-group with the core buttons
+            $buttons['left'][] = [$shortUrlButton];
         } else {
-            $title = $languageService->sL('LLL:EXT:shorturls/Resources/Private/Language/locallang.xlf:button.create');
-            $href = (string)$this->uriBuilder->buildUriFromRoute('shorturls_create', ['pageId' => $pageId, 'sourceHost' => $sourceHost]);
-            $attributes = [
-                'data-shorturl-confirm' => $languageService->sL('LLL:EXT:shorturls/Resources/Private/Language/locallang.xlf:confirm.create'),
-            ];
+            $shortUrlButton = $buttonBar->makeLinkButton()
+                ->setHref((string)$this->uriBuilder->buildUriFromRoute('shorturls_create', ['pageId' => $pageId, 'sourceHost' => $sourceHost]))
+                ->setTitle($languageService->sL('LLL:EXT:shorturls/Resources/Private/Language/locallang.xlf:button.create'))
+                ->setShowLabelText(true)
+                ->setAttributes([
+                    'data-shorturl-confirm' => $languageService->sL('LLL:EXT:shorturls/Resources/Private/Language/locallang.xlf:confirm.create'),
+                ])
+                ->setIcon($this->iconFactory->getIcon('module-urls', IconSize::SMALL));
+
+            $buttons['left'][0][] = $shortUrlButton;
         }
 
-        $buttons = $event->getButtons();
-
-        $shortUrlButton = $event->getButtonBar()->makeLinkButton()
-            ->setHref($href)
-            ->setTitle($title)
-            ->setShowLabelText(true)
-            ->setAttributes($attributes)
-            ->setIcon($this->iconFactory->getIcon('module-urls', IconSize::SMALL));
-
-        $buttons['left'][0][] = $shortUrlButton;
         $event->setButtons($buttons);
     }
 

@@ -34,33 +34,33 @@ If no short URL exists yet for the current page, the button reads
     The button before a short URL has been created for this page
 
 Clicking it asks for confirmation and then creates the short URL. A flash
-message confirms that it has been created, and the button now shows the
-new short URL.
+message confirms that it has been created, and the button is replaced by
+the new short URL with a clipboard button next to it.
 
 ..  figure:: /Images/ButtonCreated.png
     :class: with-border
     :alt: Page module after a short URL has been created, showing a success
-        message and the button now labelled with the short URL
+        message and the short URL with a clipboard button
 
-    After creation, the button shows the new short URL (here
-    ``/BirBkupN``)
+    After creation, the short URL is shown (here ``/hmRiKgfS``)
 
 .. _editor-copy:
 
 Copying an existing short URL
 ------------------------------
 
-If a short URL already exists for the page, the button shows that short
-URL as its label instead of :guilabel:`Create Short URL`. Clicking it
-copies the full URL (including the site's base URL) to the clipboard, and
-a notification confirms the copy.
+If a short URL already exists for the page, its path (e.g. ``/hmRiKgfS``)
+is shown instead of :guilabel:`Create Short URL`, next to a clipboard
+button – styled like the :guilabel:`Short URL` field in the redirect
+record. Clicking the clipboard button copies the full URL (including the
+site's base URL), and a notification confirms the copy.
 
 ..  figure:: /Images/ButtonCopied.png
     :class: with-border
     :alt: Page module showing a notification that the short URL has been
         copied to the clipboard
 
-    Clicking the button again copies the short URL and shows a
+    Clicking the clipboard button copies the short URL and shows a
     confirmation notification
 
 .. _editor-automatic:
