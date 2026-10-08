@@ -4,3 +4,4 @@ var/
 composer.lock
 .php-cs-fixer.cache
 .phpunit.cache
+ext_emconf.php
