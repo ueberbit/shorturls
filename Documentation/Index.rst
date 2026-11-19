@@ -57,6 +57,7 @@ page of a configurable page type is created.
    Configuration/Index
    Editor/Index
    Developer/Index
+   Changelog/Index
 
 .. toctree::
    :hidden:
